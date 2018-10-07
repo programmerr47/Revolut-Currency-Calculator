@@ -30,10 +30,12 @@ class CurrencyListActivity : AppCompatActivity() {
         super.onResume()
 
         timerDisposable = Observable.interval(1, SECONDS)
-                .flatMapSingle { serverApi.getLatest() }
+                .flatMapSingle { serverApi.getLatest().map {
+                    it.rates.entries.map { CurrencyItem(it.key, it.value) }
+                } }
                 .observeOn(mainThread())
                 .subscribe(
-                        { adapter.update(it.rates.map { "${it.key}: ${it.value}" }) },
+                        { adapter.update(it) },
                         { Toast.makeText(this, it.localizedMessage, Toast.LENGTH_SHORT).show() }
                 )
 
