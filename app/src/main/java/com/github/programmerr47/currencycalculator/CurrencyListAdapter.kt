@@ -1,6 +1,5 @@
 package com.github.programmerr47.currencycalculator
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -27,15 +26,13 @@ class CurrencyListAdapter(
         valueView.setText(item.value.toString())
         valueView.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                evaluator.pushOnTop(item.type)
+                update(evaluator.pushOnTop(item.type))
             }
         }
     }
 
     fun update(newList: List<CurrencyItem>) {
-        Log.v("FUCK", "OldList: " + list)
-        Log.v("FUCK", "NewList: " + newList)
-        DiffUtil.calculateDiff(diffFactory(list, newList)).dispatchUpdatesTo(this)
+        calculateDiff(diffFactory(list, newList))
         list = newList
     }
 

@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.annotation.DimenRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true) =
@@ -35,3 +36,6 @@ fun <T> Iterable<T>.move(item: T, newPos: Int): List<T> =
             filterNotTo(it) { it == item }
             it.add(newPos, item)
         }
+
+fun RecyclerView.Adapter<*>.calculateDiff(callback: DiffUtil.Callback) =
+        DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)

@@ -41,7 +41,7 @@ class CurrencyListActivity : AppCompatActivity() {
 }
 
 interface CurrencyEvaluator {
-    fun pushOnTop(currencyType: String): List<String>
+    fun pushOnTop(currencyType: String): List<CurrencyItem>
     fun acceptNew(currencyType: String, value: BigDecimal)
 }
 
@@ -51,11 +51,13 @@ class CurrencyCalculator(
         private val errorListener: (Throwable) -> Unit
 ) : LifecycleObserver, CurrencyEvaluator {
     private var currencyOrderedTypes: List<String> = listOf()
+    private var currencyFactors: Map<String, BigDecimal> = mapOf()
+
     private var timerDisposable: Disposable? = null
 
     @OnLifecycleEvent(ON_RESUME)
     fun startTracking() {
-        timerDisposable = Observable.interval(0, 5, SECONDS)
+        timerDisposable = Observable.interval(0, 1, SECONDS)
                 .flatMapSingle {
                     serverApi.getLatest().map { latest ->
                         if (currencyOrderedTypes.isEmpty()) {
@@ -64,8 +66,8 @@ class CurrencyCalculator(
                             }
                         }
 
-                        Log.v("FUCK", "CurrencyOrderedTypes: $currencyOrderedTypes")
-                        currencyOrderedTypes.map { CurrencyItem(it, latest.rates[it] ?: ZERO) }
+                        currencyFactors = latest.rates
+                        generateCurrencyList(currencyOrderedTypes, latest.rates)
                     }
                 }
                 .observeOn(mainThread())
@@ -84,14 +86,15 @@ class CurrencyCalculator(
         timerDisposable = null
     }
 
-    override fun pushOnTop(currencyType: String) =
-        currencyOrderedTypes.move(currencyType, 0).also {
-            Log.v("FUCK", "Before push: $currencyOrderedTypes")
-            Log.v("FUCK", "After push: $it")
-            currencyOrderedTypes = it
-        }
+    override fun pushOnTop(currencyType: String): List<CurrencyItem> {
+        currencyOrderedTypes = currencyOrderedTypes.move(currencyType, 0)
+        return generateCurrencyList(currencyOrderedTypes, currencyFactors)
+    }
 
     override fun acceptNew(currencyType: String, value: BigDecimal) {
         //todo
     }
+
+    private fun generateCurrencyList(order: List<String>, factors: Map<String, BigDecimal>) =
+            order.map { CurrencyItem(it, factors[it] ?: ZERO) }
 }
