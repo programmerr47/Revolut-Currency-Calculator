@@ -1,5 +1,6 @@
 package com.github.programmerr47.currencycalculator
 
+import android.util.Log
 import androidx.lifecycle.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -7,6 +8,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.math.BigDecimal.ONE
+import java.math.RoundingMode
 import java.util.concurrent.TimeUnit
 
 interface CurrencyListEmitter {
@@ -80,9 +82,10 @@ class CurrencyCalculator(
 
     private fun generateCurrencyList(order: List<String>, factors: Map<String, BigDecimal>) =
             order.mapFiltered(factors) { type, factor ->
+                Log.v("FUCK", "t = $type, targetF = $factor, currentF = ${factors[currentCurrencyType]}, currentV = $currentCurrencyValue, div = ${factor / factors[currentCurrencyType]!!}, res  = ${factor / factors[currentCurrencyType]!! * currentCurrencyValue}")
                 CurrencyItem(type, calculateValue(factor, factors[currentCurrencyType]!!, currentCurrencyValue))
             }
 
     private fun calculateValue(targetFactor: BigDecimal, currentFactor: BigDecimal, currentValue: BigDecimal) =
-            currentValue / currentFactor * targetFactor
+            targetFactor.divide(currentFactor, 10, RoundingMode.HALF_EVEN) * currentValue
 }
