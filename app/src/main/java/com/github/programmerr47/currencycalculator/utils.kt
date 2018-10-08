@@ -2,6 +2,7 @@ package com.github.programmerr47.currencycalculator
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue.COMPLEX_UNIT_PX
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,22 @@ fun <T> Iterable<T>.move(item: T, newPos: Int): List<T> =
             filterNotTo(it) { it == item }
             it.add(newPos, item)
         }
+
+inline fun <K, V, R> Iterable<K>.mapFiltered(map: Map<K, V>, mapper: (K, V) -> R) =
+        mapFilteredTo(map, ArrayList(), mapper)
+
+inline fun <K, V, R, C : MutableCollection<in R>> Iterable<K>.mapFilteredTo(map: Map<K, V>, destination: C, mapper: (K, V) -> R): C {
+    Log.v("FUCK", "Start Destination: $destination")
+    forEach { key ->
+        Log.v("FUCK", "For Each $key")
+        map[key]?.let { value ->
+            Log.v("FUCK", "Found value $value")
+            destination.add(mapper(key, value))
+        }
+    }
+    Log.v("FUCK", "End Destination: $destination")
+    return destination
+}
 
 fun RecyclerView.Adapter<*>.calculateDiff(callback: DiffUtil.Callback) =
         DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
