@@ -29,3 +29,9 @@ fun View.dimen(@DimenRes id: Int) = context.resources.getDimension(id)
 var TextView.textSizePx: Float
     get() = textSize
     set(px) = setTextSize(COMPLEX_UNIT_PX, px)
+
+fun <T> Iterable<T>.move(item: T, newPos: Int): List<T> =
+        mutableListOf<T>().also {
+            filterNotTo(it) { it == item }
+            it.add(newPos, item)
+        }

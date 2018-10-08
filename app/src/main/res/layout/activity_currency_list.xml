@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".CurrencyListActivity">
 
+    <View
+        android:id="@+id/dummyViewForRetreivingFirstFocus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
