@@ -12,8 +12,11 @@ class CurrencyListAdapter(
         private val evaluator: CurrencyEvaluator,
         private val diffFactory: (List<CurrencyItem>, List<CurrencyItem>) -> DiffUtil.Callback = { old, new -> CurrencyDiffCallback(old, new) }
 ) : RecyclerView.Adapter<CurrencyListAdapter.Holder>() {
-
     private var list: List<CurrencyItem> = emptyList()
+
+    init {
+        evaluator.observe().subscribe { update(it) }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
             Holder(CurrencyItemUi().createView(AnkoContext.create(parent.context, parent)))
@@ -26,7 +29,7 @@ class CurrencyListAdapter(
         valueView.setText(item.value.toString())
         valueView.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                update(evaluator.pushOnTop(item.type))
+                evaluator.pushOnTop(item.type)
             }
         }
     }
