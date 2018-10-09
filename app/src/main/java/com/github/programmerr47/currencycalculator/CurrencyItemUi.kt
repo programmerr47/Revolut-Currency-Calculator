@@ -39,7 +39,7 @@ class CurrencyItemUi : AnkoComponent<ViewGroup> {
                     }
                     textSizePx = dimen(R.dimen.size_text_def)
                     imeOptions = IME_ACTION_DONE
-                    setRawInputType(TYPE_CLASS_NUMBER and TYPE_NUMBER_FLAG_DECIMAL)
+                    setRawInputType(TYPE_CLASS_NUMBER)
                 }
             }
         }

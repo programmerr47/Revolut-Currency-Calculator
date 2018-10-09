@@ -54,3 +54,6 @@ inline fun <K, V, R, C : MutableCollection<in R>> Iterable<K>.mapFilteredTo(map:
 
 fun RecyclerView.Adapter<*>.calculateDiff(callback: DiffUtil.Callback) =
         DiffUtil.calculateDiff(callback).dispatchUpdatesTo(this)
+
+val BigDecimal.intDigitsCount
+    get() = if (signum() == 0) 1 else precision() - scale()

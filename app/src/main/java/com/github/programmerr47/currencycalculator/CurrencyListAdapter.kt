@@ -26,7 +26,7 @@ class CurrencyListAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) = with(holder) {
         val item = list[position]
         typeView.text = item.type
-        valueView.setText(item.value.toString())
+        valueView.setText(item.formattedValue)
         valueView.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 evaluator.pushOnTop(item.type)

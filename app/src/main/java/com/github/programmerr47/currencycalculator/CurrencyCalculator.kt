@@ -82,7 +82,6 @@ class CurrencyCalculator(
 
     private fun generateCurrencyList(order: List<String>, factors: Map<String, BigDecimal>) =
             order.mapFiltered(factors) { type, factor ->
-                Log.v("FUCK", "t = $type, targetF = $factor, currentF = ${factors[currentCurrencyType]}, currentV = $currentCurrencyValue, div = ${factor / factors[currentCurrencyType]!!}, res  = ${factor / factors[currentCurrencyType]!! * currentCurrencyValue}")
                 CurrencyItem(type, calculateValue(factor, factors[currentCurrencyType]!!, currentCurrencyValue))
             }
 
