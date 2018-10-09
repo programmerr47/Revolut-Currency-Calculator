@@ -17,7 +17,7 @@ interface CurrencyListEmitter {
 
 interface CurrencyEvaluator : CurrencyListEmitter {
     fun pushOnTop(currencyType: String)
-    fun acceptNew(currencyType: String, value: BigDecimal)
+    fun acceptNew(value: BigDecimal)
 }
 
 class CurrencyCalculator(
@@ -74,8 +74,9 @@ class CurrencyCalculator(
         currencyListSubject.onNext(generateCurrencyList(currencyOrderedTypes, currencyFactors))
     }
 
-    override fun acceptNew(currencyType: String, value: BigDecimal) {
-        //todo
+    override fun acceptNew(value: BigDecimal) {
+        currentCurrencyValue = value
+        currencyListSubject.onNext(generateCurrencyList(currencyOrderedTypes, currencyFactors))
     }
 
     override fun observe() = currencyListSubject.hide()

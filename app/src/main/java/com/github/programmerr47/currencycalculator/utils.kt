@@ -12,9 +12,9 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import io.reactivex.Observable
 import java.lang.Math.pow
 import java.math.BigDecimal
-import kotlin.math.pow
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true) =
         context.inflate(layoutId, this, attachToRoot)
@@ -57,3 +57,13 @@ fun RecyclerView.Adapter<*>.calculateDiff(callback: DiffUtil.Callback) =
 
 val BigDecimal.intDigitsCount
     get() = if (signum() == 0) 1 else precision() - scale()
+
+// Logging
+interface Logger {
+    fun log(tag: String, message: String)
+}
+
+fun <T> Observable<T>.log(logger: Logger) = this
+        .doOnNext { logger.log("LOG ${this.javaClass.name}", "onNext $it") }
+        .doOnError { logger.log("LOG ${this.javaClass.name}", "onError $it, ${it.localizedMessage}") }
+        .doOnComplete { logger.log("LOG ${this.javaClass.name}", "onComplete") }
