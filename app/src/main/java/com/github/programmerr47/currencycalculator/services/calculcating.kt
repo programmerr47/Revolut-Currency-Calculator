@@ -31,12 +31,12 @@ class CurrencyCalculator(
         baseValue = calculateValue(factors[currencyType]!!, factors[baseType]!!, baseValue)
         baseType = currencyType
 
-        currencyListSubject.onNext(generateCurrencyList(orderedTypes, factors))
+        updateList()
     }
 
     override fun setNewValue(value: BigDecimal) {
         baseValue = value
-        currencyListSubject.onNext(generateCurrencyList(orderedTypes, factors))
+        updateList()
     }
 
     override fun setNewRates(rates: Map<String, BigDecimal>) {
@@ -47,13 +47,15 @@ class CurrencyCalculator(
         }
 
         factors = rates + (BASE_CURRENCY to BigDecimal.ONE)
-        currencyListSubject.onNext(generateCurrencyList(orderedTypes, factors))
+        updateList()
     }
 
     override fun observe() = currencyListSubject.hide()
 
-    private fun generateCurrencyList(order: List<String>, factors: Map<String, BigDecimal>) =
-            order.mapFiltered(factors) { type, factor ->
+    private fun updateList() = currencyListSubject.onNext(generateCurrencyList())
+
+    private fun generateCurrencyList() =
+            orderedTypes.mapFiltered(factors) { type, factor ->
                 CurrencyItem(type, calculateValue(factor, factors[baseType]!!, baseValue))
             }
 
