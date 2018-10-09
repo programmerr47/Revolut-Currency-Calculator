@@ -1,4 +1,4 @@
-package com.github.programmerr47.currencycalculator
+package com.github.programmerr47.currencycalculator.currencylist
 
 import androidx.recyclerview.widget.DiffUtil
 

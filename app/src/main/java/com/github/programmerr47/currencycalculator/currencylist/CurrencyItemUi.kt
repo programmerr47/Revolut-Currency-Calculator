@@ -1,9 +1,13 @@
-package com.github.programmerr47.currencycalculator
+package com.github.programmerr47.currencycalculator.currencylist
 
 import android.view.Gravity.*
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.*
 import android.widget.LinearLayout.*
+import com.github.programmerr47.currencycalculator.R
+import com.github.programmerr47.currencycalculator.util.dimen
+import com.github.programmerr47.currencycalculator.util.dimenInt
+import com.github.programmerr47.currencycalculator.util.textSizePx
 import org.jetbrains.anko.*
 
 class CurrencyItemUi : AnkoComponent<ViewGroup> {
@@ -16,8 +20,8 @@ class CurrencyItemUi : AnkoComponent<ViewGroup> {
                 id = R.id.tv_type
                 layoutParams = LayoutParams(wrapContent, wrapContent).apply {
                     marginStart = dimenInt(R.dimen.padding_def)
-                    topMargin = dimenInt(R.dimen.padding_def)
-                    bottomMargin = dimenInt(R.dimen.padding_def)
+                    topMargin = dimenInt(R.dimen.padding_small)
+                    bottomMargin = dimenInt(R.dimen.padding_small)
                     marginEnd = dimenInt(R.dimen.padding_small)
                     gravity = CENTER
                 }
@@ -27,8 +31,8 @@ class CurrencyItemUi : AnkoComponent<ViewGroup> {
             frameLayout {
                 lparams(matchParent, wrapContent) {
                     marginStart = dimenInt(R.dimen.padding_small)
-                    topMargin = dimenInt(R.dimen.padding_def)
-                    bottomMargin = dimenInt(R.dimen.padding_def)
+                    topMargin = dimenInt(R.dimen.padding_small)
+                    bottomMargin = dimenInt(R.dimen.padding_small)
                     marginEnd = dimenInt(R.dimen.padding_def)
                 }
 

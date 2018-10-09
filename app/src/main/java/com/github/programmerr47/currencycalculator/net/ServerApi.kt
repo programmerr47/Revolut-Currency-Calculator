@@ -1,4 +1,4 @@
-package com.github.programmerr47.currencycalculator
+package com.github.programmerr47.currencycalculator.net
 
 import io.reactivex.Single
 import retrofit2.http.GET

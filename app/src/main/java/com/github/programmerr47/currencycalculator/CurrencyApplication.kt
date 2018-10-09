@@ -1,6 +1,7 @@
 package com.github.programmerr47.currencycalculator
 
 import android.app.Application
+import com.github.programmerr47.currencycalculator.net.ServerApi
 import io.reactivex.schedulers.Schedulers.io
 import org.koin.android.ext.android.startKoin
 import org.koin.dsl.module.module

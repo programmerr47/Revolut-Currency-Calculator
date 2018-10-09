@@ -1,4 +1,4 @@
-package com.github.programmerr47.currencycalculator
+package com.github.programmerr47.currencycalculator.ui
 
 import android.content.Context
 import android.util.AttributeSet

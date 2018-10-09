@@ -1,4 +1,4 @@
-package com.github.programmerr47.currencycalculator
+package com.github.programmerr47.currencycalculator.net
 
 import java.math.BigDecimal
 
