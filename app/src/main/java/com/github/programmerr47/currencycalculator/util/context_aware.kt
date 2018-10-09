@@ -11,5 +11,4 @@ import androidx.annotation.LayoutRes
 fun Context.inflate(@LayoutRes layoutId: Int, viewGroup: ViewGroup? = null, attachToRoot: Boolean = viewGroup != null) =
         LayoutInflater.from(this).inflate(layoutId, viewGroup, attachToRoot)
 
-inline fun <T : View> Activity.bind(@IdRes id: Int, init: T.() -> Unit) =
-        findViewById<T>(id).apply(init)
+fun <T : View> Activity.bindable(@IdRes id: Int) = lazy { findViewById<T>(id) }

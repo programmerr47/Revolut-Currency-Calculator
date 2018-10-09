@@ -13,14 +13,14 @@ interface CurrencyEvaluator : Emitter<List<CurrencyItem>> {
     fun setNewValue(value: BigDecimal)
 }
 
-interface CurrencyRatesAccepter : CurrencyEvaluator {
+interface CurrencyRatesAccepter {
     fun setNewRates(rates: Map<String, BigDecimal>)
 }
 
 class CurrencyCalculator(
         private var baseType: String = BASE_CURRENCY,
         private var baseValue: BigDecimal = BigDecimal.valueOf(100)
-) : CurrencyRatesAccepter {
+) : CurrencyRatesAccepter, CurrencyEvaluator {
     private var orderedTypes: List<String> = listOf()
     private var factors: Map<String, BigDecimal> = mapOf()
     private var currencyListSubject: BehaviorSubject<List<CurrencyItem>> = BehaviorSubject.createDefault(listOf())

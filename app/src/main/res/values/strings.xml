@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Currency Calculator</string>
+    <string name="message.internet_available">Интернету быть!</string>
+    <string name="message.no_internet">Что ж такое. Нет интернета, и все!</string>
 </resources>
