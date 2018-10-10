@@ -1,10 +1,11 @@
 package com.github.programmerr47.currencycalculator.currencylist
 
 import androidx.recyclerview.widget.DiffUtil
+import com.github.programmerr47.currencycalculator.db.CurrencyEntity
 
 class CurrencyDiffCallback(
-        private val old: List<CurrencyItem>,
-        private val new: List<CurrencyItem>
+        private val old: List<CurrencyEntity>,
+        private val new: List<CurrencyEntity>
 ) : DiffUtil.Callback() {
     override fun getOldListSize() = old.size
     override fun getNewListSize() = new.size

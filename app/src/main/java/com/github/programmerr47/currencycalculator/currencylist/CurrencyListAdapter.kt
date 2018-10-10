@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.programmerr47.currencycalculator.R
+import com.github.programmerr47.currencycalculator.db.CurrencyEntity
 import com.github.programmerr47.currencycalculator.services.CurrencyEvaluator
 import com.github.programmerr47.currencycalculator.services.CurrencyFormatter
 import com.github.programmerr47.currencycalculator.util.bind
@@ -20,9 +21,9 @@ import java.math.BigDecimal
 class CurrencyListAdapter(
         private val evaluator: CurrencyEvaluator,
         private val formatter: CurrencyFormatter<BigDecimal>,
-        private val diffFactory: (List<CurrencyItem>, List<CurrencyItem>) -> DiffUtil.Callback = { old, new -> CurrencyDiffCallback(old, new) }
+        private val diffFactory: (List<CurrencyEntity>, List<CurrencyEntity>) -> DiffUtil.Callback = { old, new -> CurrencyDiffCallback(old, new) }
 ) : RecyclerView.Adapter<CurrencyListAdapter.Holder>() {
-    private var list: List<CurrencyItem> = emptyList()
+    private var list: List<CurrencyEntity> = emptyList()
     private val currencyTextWatcher: TextWatcher by lazy { CurrencyWatcher(evaluator, formatter) }
 
     init {
@@ -52,7 +53,7 @@ class CurrencyListAdapter(
         holder.valueView.run { if (isFocused) hideKeyboard() }
     }
 
-    fun update(newList: List<CurrencyItem>) {
+    fun update(newList: List<CurrencyEntity>) {
         calculateDiff(diffFactory(list, newList))
         list = newList
     }

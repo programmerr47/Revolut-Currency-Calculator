@@ -1,6 +1,6 @@
 package com.github.programmerr47.currencycalculator.services
 
-import com.github.programmerr47.currencycalculator.currencylist.CurrencyItem
+import com.github.programmerr47.currencycalculator.db.CurrencyEntity
 import com.github.programmerr47.currencycalculator.net.BASE_CURRENCY
 import com.github.programmerr47.currencycalculator.util.mapFiltered
 import com.github.programmerr47.currencycalculator.util.move
@@ -8,7 +8,7 @@ import io.reactivex.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-interface CurrencyEvaluator : Emitter<List<CurrencyItem>> {
+interface CurrencyEvaluator : Emitter<List<CurrencyEntity>> {
     fun setNewType(currencyType: String)
     fun setNewValue(value: BigDecimal)
 }
@@ -23,7 +23,7 @@ class CurrencyCalculator(
 ) : CurrencyRatesAccepter, CurrencyEvaluator {
     private var orderedTypes: List<String> = listOf()
     private var factors: Map<String, BigDecimal> = mapOf()
-    private var currencyListSubject: BehaviorSubject<List<CurrencyItem>> = BehaviorSubject.createDefault(listOf())
+    private var currencyListSubject: BehaviorSubject<List<CurrencyEntity>> = BehaviorSubject.createDefault(listOf())
 
     override fun setNewType(currencyType: String) {
         orderedTypes = orderedTypes.move(currencyType, 0)
@@ -56,7 +56,7 @@ class CurrencyCalculator(
 
     private fun generateCurrencyList() =
             orderedTypes.mapFiltered(factors) { type, factor ->
-                CurrencyItem(type, calculateValue(factor, factors[baseType]!!, baseValue))
+                CurrencyEntity(type, calculateValue(factor, factors[baseType]!!, baseValue))
             }
 
     private fun calculateValue(targetFactor: BigDecimal, currentFactor: BigDecimal, currentValue: BigDecimal) =
