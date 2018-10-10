@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import android.util.Log
 import com.github.programmerr47.currencycalculator.util.broadcastReceiver
 import io.reactivex.subjects.BehaviorSubject
 import org.jetbrains.anko.connectivityManager
@@ -24,7 +25,7 @@ class NetworkChangeTracker(
         context.unregisterReceiver(receiver)
     }
 
-    override fun observe() = networkSubject.hide()
+    override fun observe() = networkSubject.hide().distinctUntilChanged()
 
     private fun isOnline(context: Context): Boolean {
         val networkInfo = context.connectivityManager.activeNetworkInfo

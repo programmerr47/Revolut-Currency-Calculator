@@ -46,7 +46,7 @@ class CurrencyCalculator(
             }
         }
 
-        factors = rates + (BASE_CURRENCY to BigDecimal.ONE)
+        factors = if (rates.isEmpty()) rates else rates + (BASE_CURRENCY to BigDecimal.ONE)
         updateList()
     }
 

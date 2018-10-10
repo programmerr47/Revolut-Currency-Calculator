@@ -1,27 +1,21 @@
 package com.github.programmerr47.currencycalculator.services
 
+import io.reactivex.Observable
+
 class CurrencyService(
         private val latestCurrencyTracker: LatestCurrencyTracker,
         private val accepter: CurrencyRatesAccepter,
-        private val errorListener: (Throwable) -> Unit
-) : Tracker by latestCurrencyTracker {
-    private val tracker: Tracker by lazy { createDisposableTracker() }
+        private val netTracker: NetworkChangeTracker
+) {
 
-    override fun startTracking() {
-        tracker.startTracking()
-        latestCurrencyTracker.startTracking()
-    }
-
-    override fun stopTracking() {
-        tracker.stopTracking()
-        latestCurrencyTracker.stopTracking()
-    }
-
-    private fun createDisposableTracker() = DisposableTracker {
-        latestCurrencyTracker.observe()
-                .subscribe(
-                        { accepter.setNewRates(it) },
-                        { errorListener(it) }
-                )
-    }
+    fun startCurrencyTracking() = netTracker.observe()
+            .switchMap {
+                if (it) latestCurrencyTracker.run {
+                    restart()
+                    observe()
+                }
+                else Observable.just(mapOf())
+            }
+            .doOnNext { accepter.setNewRates(it) }
+            .subscribe()
 }
