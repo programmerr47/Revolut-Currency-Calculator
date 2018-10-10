@@ -13,6 +13,7 @@ import com.github.programmerr47.currencycalculator.services.CurrencyEvaluator
 import com.github.programmerr47.currencycalculator.services.CurrencyFormatter
 import com.github.programmerr47.currencycalculator.util.bind
 import com.github.programmerr47.currencycalculator.util.calculateDiff
+import com.github.programmerr47.currencycalculator.util.hideKeyboard
 import org.jetbrains.anko.AnkoContext
 import java.math.BigDecimal
 
@@ -45,6 +46,10 @@ class CurrencyListAdapter(
                 (v as? EditText)?.removeTextChangedListener(currencyTextWatcher)
             }
         }
+    }
+
+    override fun onViewDetachedFromWindow(holder: Holder) {
+        holder.valueView.run { if (isFocused) hideKeyboard() }
     }
 
     fun update(newList: List<CurrencyItem>) {

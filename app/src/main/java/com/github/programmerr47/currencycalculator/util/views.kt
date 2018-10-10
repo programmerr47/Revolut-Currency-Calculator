@@ -8,8 +8,8 @@ import androidx.annotation.DimenRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import org.jetbrains.anko.inputMethodManager
 
 fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true) =
         context.inflate(layoutId, this, attachToRoot)
@@ -22,3 +22,8 @@ var TextView.textSizePx: Float
     set(px) = setTextSize(TypedValue.COMPLEX_UNIT_PX, px)
 
 fun View.showSnackbar(@StringRes msgId: Int, length: Int = LENGTH_SHORT) = Snackbar.make(this, msgId, length).show()
+
+fun View.hideKeyboard() {
+    context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    clearFocus()
+}
