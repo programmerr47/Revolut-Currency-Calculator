@@ -21,6 +21,7 @@ class LatestCurrencyTrackingService(
     private var latestSubject: BehaviorSubject<Map<String, BigDecimal>> = BehaviorSubject.createDefault(mapOf())
 
     override fun startTracking() {
+        stopTracking()
         timerDisposable = Observable.interval(0, 1, SECONDS)
                 .flatMapSingle {
                     serverApi.getLatest().map { it.rates }
