@@ -26,12 +26,8 @@ class CurrencyListAdapter(
     private var list: List<CurrencyEntity> = emptyList()
     private val currencyTextWatcher: TextWatcher by lazy { CurrencyWatcher(evaluator, formatter) }
 
-    init {
-        evaluator.observe().subscribe({ update(it) })
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder =
-            Holder(CurrencyItemUi().createView(AnkoContext.create(parent.context, parent)))
+            Holder(CurrencyItemUi.createView(AnkoContext.create(parent.context, parent)))
 
     override fun getItemCount() = list.size
 

@@ -1,9 +1,16 @@
 package com.github.programmerr47.currencycalculator.db
 
-import androidx.room.*
-import androidx.room.OnConflictStrategy.*
+import androidx.room.Dao
+import androidx.room.Database
+import androidx.room.Entity
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.PrimaryKey
+import androidx.room.Query
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.github.programmerr47.currencycalculator.util.bigDecimal
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import java.math.BigDecimal
 

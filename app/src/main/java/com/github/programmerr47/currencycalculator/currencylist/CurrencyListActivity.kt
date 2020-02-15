@@ -54,5 +54,6 @@ class CurrencyListActivity : BaseActivity() {
             }
         }.attachToLifecycle()
         currencyService.startCurrencyTracking().attachToLifecycle()
+        currencyCalculator.observe().subscribe { adapter.update(it) }.attachToLifecycle()
     }
 }
